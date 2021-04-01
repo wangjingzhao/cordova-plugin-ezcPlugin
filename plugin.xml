@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-ezcPlugin"
+	version="0.0.1" 
+	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>cordova-plugin-ezcPlugin</name>
+	<js-module name="ezcPlugin" src="www/cordova-plugin-ezcPlugin.js">
+		<clobbers target="cordova.plugins.ezcPlugin" />
+	</js-module>
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="ezcPlugin">
+				<param name="ios-package" value="ezcPlugin" />
+			</feature>
+		</config-file>
+	<source-file src="src/ios/cordova-plugin-ezcPlugin.m" />
+	</platform>
+	<platform name="android">
+	<config-file parent="/*" target="res/xml/config.xml">
+		<feature name="ezcPlugin">
+			<param name="android-package" value="com.easycloud.ezcPlugin.ezcPlugin" />
+		</feature>
+	</config-file>
+	<config-file parent="/*" target="AndroidManifest.xml">
+		
+	</config-file>
+	<source-file src="src/android/ezcPlugin.java" target-dir="src/com/easycloud/ezcPlugin" />
+	</platform>
+</plugin>
