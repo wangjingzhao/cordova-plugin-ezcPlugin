@@ -2,8 +2,11 @@ package com.easycloud.ezcPlugin;
 
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
@@ -75,12 +78,12 @@ public class ezcPlugin extends CordovaPlugin {
         if (Build.VERSION.SDK_INT >= 26) {
             // android 8.0引导
             intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-            //intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
+            intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
         } else if (Build.VERSION.SDK_INT >= 21) {
             // android 5.0-7.0
             intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-            //intent.putExtra("app_package", getPackageName());
-            //intent.putExtra("app_uid", getApplicationInfo().uid);
+            intent.putExtra("app_package", getPackageName());
+            intent.putExtra("app_uid", getApplicationInfo().uid);
         } else {
             // 其他
             intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
@@ -93,9 +96,17 @@ public class ezcPlugin extends CordovaPlugin {
         callbackContext.success("ok");
     }
 
-//    private String getPackageName()
-//    {
-//        return "com.easycloud.boss1";
-//    }
+    private String getPackageName()
+    {
+        ActivityManager am=(ActivityManager) this.cordova.getActivity().getApplicationContext().getSystemService(Activity.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        return cn.getPackageName();
+    }
+
+    private ApplicationInfo getApplicationInfo()
+    {
+        ApplicationInfo ai=this.cordova.getActivity().getApplicationContext().getApplicationInfo();
+        return ai;
+    }
 
 }
